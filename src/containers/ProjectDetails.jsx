@@ -10,29 +10,20 @@ class ProjectDetails extends React.Component {
   constructor(props) {
     super(props);
 
-    // this.state = {}
-
     this.handleJoin = this.handleJoin.bind(this);
     this.open = this.open.bind(this);
   }
 
   componentWillMount() {
-    console.log("HEEEEEEEEEEEEEEEEEEEEEY")
-    var id = this.props.router.params.id
-    console.log("ID IN componentDidMount PROEJECT DETAILS", id)
+    var id = this.props.router.params.id;
 
     this.props.teamDetails(id).then(() => {
-      if
-      ( (this.props.CheckSeshUser.avatar) &&
-        (this.props.CheckSeshUserID === this.props.teamDet.adminID)
-      ) {
+      if((this.props.CheckSeshUser.avatar) && (this.props.CheckSeshUserID === this.props.teamDet.adminID)){
         var updateAvatar = {
           avatar: this.props.CheckSeshUser.avatar,
           id
         }
-        axios.post('/avatar-projectlist', updateAvatar).then((data) => {
-          console.log("DATAAA", data)
-        })
+        axios.post('/avatar-projectlist', updateAvatar);
       }
     })
   }
@@ -153,7 +144,7 @@ class ProjectDetails extends React.Component {
                 <h2>Team Members</h2>
                 <hr />
 
-                    {teamMems}
+                {teamMems}
 
                 {
 

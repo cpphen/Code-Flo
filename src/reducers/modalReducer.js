@@ -10,7 +10,8 @@ export function modalReducer(state={
 		showModal: false,
 		loginModal: false,
 		teamModal: false,
-		taskModal: false
+		taskModal: false,
+		skillModal: false
 	}, action ) {
 
 
@@ -64,6 +65,18 @@ export function modalReducer(state={
 			return {
 				...state,
 				taskModal: action.payload
+			}
+		}
+		case "OPEN_MODAL_SKILL": {
+			return {
+				...state,
+				skillModal: action.payload
+			}
+		}
+		case "CLOSE_MODAL_SKILL": {
+			return {
+				...state,
+				skillModal: action.payload
 			}
 		}
 		default: {

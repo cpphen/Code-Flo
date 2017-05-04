@@ -15,18 +15,6 @@ export function addMember(userid, teamid) {
 	}
 }
 
-// export function setTodos(todos) {
-// 	return function(dispatch) {
-// 		axios.post('/todo', todos).then((data) => {
-// 			console.log('RETURN TODOS', data);
-// 		})
-// 	}
-// }
-
-
-
-
-
 export function createUser(formData) {
 	return function(dispatch) {
 		axios.post('/register', formData).then((data) => {
@@ -38,15 +26,11 @@ export function createUser(formData) {
 				dispatch({ type: "SUCC_CLR_ERRS" });
 				dispatch({ type: "ERROR_MSGS", payload: data.data })
 			}else{
-				console.log("INSIDE CREATE USER ELSE", data)
 				dispatch({ type: "SESSION_EXIST", payload: {
 						checkSessionId: data.data.sessionUserId,
 						checkSessionUser: data.data.sessionInfo
-
 					}
 				});
-				// sessionUserID: action.payload.checkSessionId,
-				// sessionUser: action.payload.checkSessionUser
 				dispatch({ type: "SUCC_CLR_ERRS" });
 
 				dispatch({ type: "CLOSE_MODAL", payload: false });
@@ -79,21 +63,7 @@ export function createTeam(formData) {
 	}
 };
 
-// export function updateTeams() {
-// 	return function(dispatch) {
-// 		axios.get('/teams').then((data) => {
-// 			console.log("RETURN DATA FROM AXIOS ALL TEAMS GET", data);
-// 			console.log('\n\n');
-// 			var teams = [];
-// 			teams.push(data.data)
-// 			dispatch({type: "UPDATE_TEAMS", payload: {teams: teams}})
-// 		})
-//
-// 	}
-// }
 
-
-// SEND BACK USER SESSION INFO ALSO ON "ONENTER"  // SEND BACK USER SESSION INFO ALSO ON "ONENTER"
 export function checkSession() {
 	return function(dispatch) {
 		axios.get('/checkssion').then((data) => {
@@ -128,11 +98,7 @@ export function login(loginInput) {
 			}else{
 				dispatch({ type: "NO_SESSION" })
 			}
-		})
-		// .catch((err) => {
-		// 	debugger;
-		// });
-
+		});
 	}
 }
 
@@ -204,6 +170,20 @@ export function closeModalTask() {
 	}
 }
 
+export function openModalSkill() {
+	return {
+		type: "OPEN_MODAL_SKILL",
+		payload: true
+	}
+}
+
+export function closeModalSkill() {
+	return {
+		type: "CLOSE_MODAL_SKILL",
+		payload: false
+	}
+}
+
 export function taskAssignUser(id) {
 	console.log("TASK ASSIGN ID",id)
 	return {
@@ -232,15 +212,6 @@ export function getPhoto(username, id){
 
 				})
 			}else{
-				// let avatar_url = "http://www.liveanimalslist.com/birds/images/hen-white-and-black-color.jpg"
-				// axios.post('/savepic/' + id, { avatarURL: avatar_url }).then((data) => {
-				// 	console.log("DEFAULT IMAGE", data)
-				// 	dispatch({ type: "SESSION_EXIST", payload: {
-			 //            checkSessionId: data.data.sessionUserId,
-				// 	    checkSessionUser: data.data.sessionInfo
-				// 	    }
-				// 	});
-				// })
 				return;
 			}
 		})
@@ -248,21 +219,25 @@ export function getPhoto(username, id){
 	}
 }
 
-// export function editUsername(id){
-// 	return function(dispatch){
-// 		axios.post('/edit/username', { id: id }).then((data) => {
+export function editSkills(skills, id){
 
-// 		})
-// 	}
-// }
+	let skillInfo = {
+		skills,
+		id
+	}
 
-// export function editSkills(id){
-// 	return function(dispatch){
-// 		axios.post('/edit/skills', { id: id }).then((data) => {
-
-// 		})
-// 	}
-// }
+	return function(dispatch){
+		axios.post('/edit/skills', skillInfo).then((data) => {
+			console.log("EDIT SKILLS DATA", data);
+			dispatch({ type: "SESSION_EXIST", payload: {
+			            checkSessionId: data.data.sessionUserId,
+					    checkSessionUser: data.data.sessionInfo
+					    }
+					});
+			dispatch({ type: "CLOSE_MODAL_SKILL", payload: false })
+		});
+	}
+}
 
 export function teamDetails(id) {
 	return function(dispatch) {
@@ -270,41 +245,27 @@ export function teamDetails(id) {
 	return axios.get('/getteaminfo/' + id)
       .then(res => {
         console.log("response team details", res);
-        // const currentteam = res.data[0];
-        // console.log("CURRENT TEAM", currentteam);
-        // this.setState({ currentteam });
+
         dispatch({ type: "SET_TEAM_DETAILS", payload: {
         		teamInfo: res.data.teamInfo,
         		admin: res.data.admin,
         		adminID: res.data.teamInfo.teamAdmin,
         		teamMembers: res.data.teamInfo.teamMembers
         	} 
-        })
+        });
 
       });
 	}
 }
 
-// export function	projectIdURL(id) {
-// 	return {
-// 		type: "SET_PROJECT_ID_URL",
-// 		payload: id
-// 	}
-// }
 
 export function updateUserTask(task, userID, projectID){
-
-	console.log("THE TASK IN ACTION", task);
-	console.log("USER ID IN ACTION", userID);
-	console.log("PROJECT ID IN ACTION", projectID);
 
 	var info = {
 		task,
 		userID,
 		projectID
 	}
-
-	console.log("INFO OBJECT", info);
 
 	return function(dispatch){
 		axios.post('/assignTask', info).then((res) => {
@@ -320,7 +281,7 @@ export function populateTasks(projectID, userID){
 		return axios.get('/populate-tasks/' + projectID + '/' + userID).then((res) => {
 			console.log("RESPONSE IN POPULATE TASKS ACTIONS", res)
 			dispatch({ type: "SET_USER_TASKS", payload: res.data.task })
-		})
+		});
 	}
 }
 
@@ -329,6 +290,6 @@ export function dynamicProfile(userID){
 		axios.get('/profile-two/' + userID).then((data) => {
 			console.log("USER DATA PROFILETWO", data);
 			dispatch({ type: "SET_DYNAMIC_PROFILE_INFO", payload: data.data });
-		})
+		});
 	}
 }

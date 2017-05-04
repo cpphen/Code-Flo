@@ -615,3 +615,11 @@ a.blue
 .taskList{
 	text-align: left;
 }
+
+.gitname{
+	color: orange;
+}
+
+.skills{
+	color: purple;
+}

@@ -38,14 +38,7 @@ class TasksForms extends Component {
         this.props.closeModalTask()
     }
 
-    // open() {
-    //     this.props.openModalTask()
-    // }
-
     render() {
-
-        // const { userID } = this.props
-        // console.log("USER ID PROPS", userID)
 
         return (
            <div>

@@ -27,17 +27,11 @@ const theRoutes = (
    	<Provider store={store}>
 	  	<Router history={history}>
 		    <Route path="/" component={App}>
-
-		      <IndexRoute onEnter={checkSesh} component={Home}/>
-		      <Route path="/profile" onEnter={checkSesh} component= {Profile} />
-		      <Route path="/profile/:id" onEnter={checkSesh} component= {ProfileTwo} />
-		      <Route path="/newproject/:id" onEnter={checkSesh} component= {ProjectDetails} />
-
-		      <Route path="/newproject" onEnter={checkSesh} component= {NewProject} />
-
-
-
-
+			    <IndexRoute onEnter={checkSesh} component={Home}/>
+			    <Route path="/profile" onEnter={checkSesh} component= {Profile} />
+			    <Route path="/profile/:id" onEnter={checkSesh} component= {ProfileTwo} />
+			    <Route path="/newproject/:id" onEnter={checkSesh} component= {ProjectDetails} />
+			    <Route path="/newproject" onEnter={checkSesh} component= {NewProject} />
 		    </Route>
 		</Router>
 	</Provider>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import { browserHistory } from "react-router";
+import { browserHistory } from 'react-router';
+import SkillEdit from '../components/forms/skillEditForm.jsx';
 
 class Profile extends Component {
 
@@ -16,16 +17,6 @@ class Profile extends Component {
 
   render() {
     const { username, name, skills, avatar } = this.props.CheckSeshUser
-    // let skillsArr = skills.split(",");
-    // let skillList = null;
-    // if(skillsArr){
-    //   // var newarr = skillsArr.split(",");
-    //   skillList = skillsArr.map((item, index) =>
-    //       <li key={index}>{item}</li>
-    //     )
-    //   console.log("SKILLS", skillsArr);
-    // }
-    // let empty = null;
 
 		return (
 
@@ -36,16 +27,16 @@ class Profile extends Component {
               <hr />
               <h2>{name}</h2>
               <hr />
-              <h3><span className="glyphicon glyphicon-pencil editUsername"></span>GitHub ID: <span>{username}</span></h3>
+              <h3>GitHub ID: <span className="gitname">{username}</span></h3>
               <hr />
 
-                <h4><span className="glyphicon glyphicon-pencil editSkills"></span>Skills</h4>
-                <h6>{skills}</h6>
+                <h4><SkillEdit {...this.props} />Skills</h4>
+                <h6 className="skills">  {skills} </h6>
 
               <hr />
               <br />
               <div className="icons-holder">
-                <a target='_blank' href="http://www.github.com">
+                <a target='_blank' href={"http://www.github.com" + username}>
                   <img src="/assets/icons/github.png" className="profIcons"/>
                 </a>
                 <a target='_blank' href="http://www.linkedin.com">
@@ -53,10 +44,7 @@ class Profile extends Component {
                 </a>
               </div>
               <div className="buttons-holder">
-                  {/*<button type="button" className="btn btn-danger actionButtons">Add to Team</button>
-                  <button type="button" className="btn btn-success actionButtons">Connect</button>*/}
                   <button type="button" className="btn btn-success actionButtons" onClick={this.getPhoto}>Import GitHub Photo</button>
-                  {/*<button type="button" className="btn btn-warning actionButtons">Send Message</button>*/}
               </div>
           </div>
           <div className="col-md-3"></div>

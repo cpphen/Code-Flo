@@ -71,20 +71,10 @@ class Register extends Component {
 			 <div key={index} className="alert alert-warning">{item.msg}</div>
 			);
 		}
-		// console.log('msg', msg)
-
-			// can also directly put the messages inline the return below instead of mapping and assigning it
-			// to an variable (msg);
-
-			// {errs ? this.state.errArr.map((item, index) =>
-			//  <div key={index} className="alert alert-warning">{item.msg}</div>
-			// ) : success}
-
 		return ( <div>
 			<button type="button" className="pt-button pt-large pt-intent-primary" onClick={this.open}>
 			 <span className="pt-icon-standard pt-icon-swap-horizontal"></span>
 			 Register
-			 {/* <span className="pt-pt-align-right"></span> */}
 			</button>
 
 

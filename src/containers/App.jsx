@@ -27,6 +27,7 @@ function mapStateToProps (state) {
 		loginModal: state.modalReducer.loginModal,
 		teamModal: state.modalReducer.teamModal,
 		taskModal: state.modalReducer.taskModal,
+		skillModal: state.modalReducer.skillModal,
 		team: {
 			teamname: state.teamCreateReducer.teamnames,
 			tech: state.teamCreateReducer.techs,
@@ -48,17 +49,9 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
 	return bindActionCreators(actionsCreators, dispatch);
-
-	// return {
-	//     handleForm: (formData) => {
-	//       dispatch(createUser(formData))
-	//     }
-	// }
-
 }
 
 
 const App = connect(mapStateToProps, mapDispatchToProps)(Main);
-/*******************/
 
 export default App;

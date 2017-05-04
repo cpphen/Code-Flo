@@ -11,10 +11,7 @@ var LocalStrategy = require('passport-local').Strategy;
 //MySQL database set-up
 var db = require('../models');
 var Team = require('../mongoModels/Team.js')
-// var User = require('../mongoModels/User.js')
 
-//Sendgrid set-up
-// var email = require('../mail/email');
 
 router.get('/checkssion', function(req, res){
   console.log("CHECK SESSION ID IN EXPRESS", req.session.userID);
@@ -54,20 +51,17 @@ router.get('/populate-tasks/:pID/:uID', function(req, res){
   monUser.findById({ "_id": req.params.uID }).populate({path: 'task', match: { projectID: req.params.pID } }).exec(function(err, docs){
     console.log("POPULATE TASKS DOCS", docs)
     res.json(docs);
-  })
-})
+  });
+});
 
 router.post('/register', function(req, res){
 
-  // console.log("REGISTER REQ.BODY", req.body);
 
   var name = req.body.name;
   var username = req.body.username;
   var email = req.body.email;
   var password = req.body.password;
   var password2 = req.body.password2;
-
-  //Using express validator*************************************************************************
 
 
   req.checkBody('name', 'Must type in name.').notEmpty();
@@ -100,10 +94,7 @@ router.post('/register', function(req, res){
 
 
         db.users.create(req.body).then(function(user){
-          // console.log("UUUSSSSSSSSSSSSSSSER", user)
-          // req.session.userID = user.id;
-          console.log('\n\n')
-          // console.log("POST REGISTER CALL BACK FUNCTION DATA", data);
+     
           monUser.create({ name: user.name, username: user.username, skills: user.skills, SQLid: user.id }, function (err, doc){
             console.log("DOCS AFTER CREATE", doc);
             req.session.userID = doc._id;
@@ -155,7 +146,6 @@ router.get('/profile-two/:id', function(req, res){
 });
 
 router.get('/populate', function(req, res) {
-    //  var obj = {};
 
      Team.find({})
      .populate("teamMembers")
@@ -171,10 +161,6 @@ router.get('/populate', function(req, res) {
 })
 
 
-
-
-
-// for searchform
 router.get('/register/:query', function(req,res) {
   console.log('running get: register');
   var query = req.params.query;
@@ -210,10 +196,6 @@ router.get('/getteaminfo/:id', function(req,res) {
   });
 });
 
-
-
-
-
 router.get('/register/users', function(req,res) {
    db.users.find(
       {
@@ -225,22 +207,18 @@ router.get('/register/users', function(req,res) {
       console.log(data);
 
       res.json(data);
-   })
-})
+   });
+});
 
 router.post('/teams', function(req, res){
 
-// TODO: validation for team creation
-
     var teamInfo = {
-
       teamname: req.body.teamname,
       description: req.body.description,
       tech: req.body.tech,
       teamAdmin: req.body.userID,
       adminAvatar: req.body.avatar,
       adminName: req.body.adminUsername,
-
     };
 
     console.log("ADMIN ID", req.body.userID)
@@ -253,29 +231,23 @@ router.post('/teams', function(req, res){
          console.log(err);
       } else {
          console.log("NEW TEAM CREATION DOCS", doc);
-         // res.json(doc);
+
          obj.newTeam = doc;
 
          monUser.findOneAndUpdate({ "_id": req.body.userID }, { $push: { "adminTeams": doc._id } }).exec(function(err, doc){
           console.log("DOC IN PUSH TO ADMIN TEAMS", doc)
           res.json(obj);
          });
-
-
       }
 
    });
 });
 
 router.get('/teams', function(req, res){
-console.log("getting to the controller get Teams");
   Team.find({}).exec(function(err, docs) {
     console.log(docs);
     res.json(docs)
   });
-
-
-
 });
 
 router.post('/login',
@@ -294,43 +266,23 @@ router.post('/login',
     })
 });
 
-// TODO: set the sockID to a store variable
-// router.post('/injectSock', function(req,res) {
-//   monUser.findOneAndUpdate({ _id: req.body.seshID },
-//   function(err, doc) {
-//     if(err) {
-//       console.log(err);
-//     } else {
-//
-//     }
-//   })
-// })
 
 router.get('/logout', function(req, res){
-  console.log("SESSION OBJECT BEFORE DESRTOY", req.session)
-  console.log("SESSION OBJECT BEFORE DESRTOY", req.session.userID)
+
   req.logOut();
 
   req.session.destroy(function(err){
-    console.log("SESSION OBJECT AFTER DESRTOY", req.session)
-    // console.log("SESSION OBJECT AFTER DESRTOY", req.session.userID)
     res.send(false);
-
   });
 
 });
 
 router.post('/savepic/:id', function(req, res){
-  console.log("REQ PARAMS", req.params.id)
-  console.log("REQ BODY", req.body.avatarURL)
+
   monUser.findOneAndUpdate({ "_id": req.params.id}, { "avatar": req.body.avatarURL }, { "new": true }).populate("adminTeams").exec(function(err, doc){
     if(err){
       console.log(err);
     }else{
-      console.log("\n\n")
-      console.log("SAVE PIC DOCS", doc)
-      console.log("\n\n")
-
       if(doc.adminTeams.length > 0){
         for(var x = 0; x < doc.adminTeams.length; x++){
           Team.findOneAndUpdate({ "_id": doc.adminTeams[x]._id}, { "adminAvatar": doc.avatar }, { "new": true }).exec(function(err, doc){
@@ -340,7 +292,7 @@ router.post('/savepic/:id', function(req, res){
               console.log("\n\n")
               console.log("UPDATE TEAM ADMIN AVATAR DOC", doc)
             }
-          })
+          });
         }
       }
       req.session.userID = doc._id;
@@ -355,18 +307,23 @@ router.post('/avatar-projectlist', function(req, res){
   console.log("AVATAR REQ BODY", req.body.avatar);
   Team.findOneAndUpdate({ "_id": req.body.id }, { "adminAvatar": req.body.avatar}, { "new": true }).exec(function(err, doc){
     res.json(doc);
-  })
-})
+  });
+});
 
-// router.post('/edit/username', function(req, res){
+router.post('/edit/skills', function(req, res){
+  console.log('SKILLS EDIT REQ BODY', req.body)
 
-
-// })
+  monUser.findOneAndUpdate({ "_id": req.body.id }, {"skills": req.body.skills }, { "new": true })
+  .exec(function(err, doc){
+    console.log("DOCS AFTER SKILLS UPDATE", doc);
+    req.session.userID = doc._id;
+    req.session.userData = doc;
+    res.json({sessionUserId: req.session.userID, sessionInfo: req.session.userData})
+  });
+});
 
 router.get('*', function(req,res) {
-
   res.sendFile(path.join(__dirname + "/..", "public", "index.html"));
-
 });
 
 

@@ -7,10 +7,8 @@ class PrivateChat extends Component {
   super(props);
 
   this.state = {
-
     message: [],
     enterroom:[]
-
   };
 
 
@@ -20,10 +18,6 @@ class PrivateChat extends Component {
     console.log('user: %s',user);
     console.log('this.state.enterroom: %s', this.state.enterroom);
   });
-  // clientSocket.on('user left', (user) => {
-  //   this.updateLeave(user);
-  //
-  // });
 
   clientSocket.on('receive private message', (payload) => {
       this.updateMsg(payload)
@@ -56,37 +50,23 @@ class PrivateChat extends Component {
 
   }
 
-  // updateSID(id) {
-  //   this.setState({sid: id})
-  //
-  // }
-
   updateRoom(user) {
     var lobbyarray = this.state.enterroom.slice();
     lobbyarray.push({user});
     { this.refs.mountCheck ? this.setState({enterroom: lobbyarray}) : console.log("not mounted yet") }
     console.log(this.state.enterroom);
   }
-  // updateLeave(user) {
-  //   this.setState({'leftlobby': user})
-  // }
+
   updateMsg(payload) {
     var messagearray = this.state.message.slice();
     messagearray.push({messageBody: payload.newMessage, messageSender: payload.sender, messageSID: payload.sid})
     this.setState({message: messagearray})
-    // console.log("messages: ",this.state.message);
   }
+
   componentDidMount() {
     console.log('SID',clientSocket.id);
     clientSocket.emit('joined room', {room: 'private', user: clientSocket.id})
-    // this.props.router.setRouteLeaveHook(this.props.route, () => {
-    //       clientSocket.emit('exit lobby', {room: 'lobby', user: clientSocket.id});
-    // })
   }
-  // componentWillUnmount() {
-  //
-  //
-  // }
 
   render(){
 
@@ -96,7 +76,7 @@ class PrivateChat extends Component {
           {this.state.enterroom.map((user, i) =>
             <div className="chatMsg" key={i}><span>{user.user} has joined the room.</span>
             </div>
-        )}
+          )}
         </div>
 
 
@@ -106,8 +86,8 @@ class PrivateChat extends Component {
         <div className='jumbotron'>
         {this.state.message.map((msg, i) =>
           <div className="chatMsg" key={i}><span>{msg.messageSender}({msg.messageSID}): {msg.messageBody} [{(new Date().toLocaleTimeString())}]</span>
-        </div>
-      )}
+          </div>
+        )}
         </div>
 
       <form name="message">
