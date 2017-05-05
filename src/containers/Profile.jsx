@@ -36,11 +36,8 @@ class Profile extends Component {
               <hr />
               <br />
               <div className="icons-holder">
-                <a target='_blank' href={"http://www.github.com" + username}>
+                <a target='_blank' href={"http://www.github.com/" + username}>
                   <img src="/assets/icons/github.png" className="profIcons"/>
-                </a>
-                <a target='_blank' href="http://www.linkedin.com">
-                  <img src="/assets/icons/linkedin.png" className="profIcons"/>
                 </a>
               </div>
               <div className="buttons-holder">
