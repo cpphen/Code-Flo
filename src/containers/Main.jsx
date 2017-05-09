@@ -17,7 +17,7 @@ class Main extends Component {
            router={this.props.router}
            avatar={this.props.CheckSeshUser.avatar}
          />
-         <iframe width="560" height="315" src="http://www.youtube.com/embed/OcRtcjGYU8g?autoplay=1&loop=1&playlist=OcRtcjGYU8g" frameborder="0"></iframe>
+        
         <div className="container Main-content">
           {React.cloneElement(this.props.children, this.props)}
         </div>
