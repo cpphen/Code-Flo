@@ -17,7 +17,6 @@ class Main extends Component {
            router={this.props.router}
            avatar={this.props.CheckSeshUser.avatar}
          />
-        
         <div className="container Main-content">
           {React.cloneElement(this.props.children, this.props)}
         </div>
