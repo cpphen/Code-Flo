@@ -7,36 +7,29 @@ class Tasks extends Component {
 		super(props)
 
 		this.state = {
-			tasks: ""
+			tasks: []
 		}
 
 		this.openCollapse = this.openCollapse.bind(this);
 	}
 
-	// componentWillReceiveProps(){
-		// var val = document.getElementById('showTask').getAttribute('data-memberID');
-		// this.props.populateTasks(projectID, userID).then(() => {
-	 //    	this.setState({tasks: this.props.userTasks})
-		// 	console.log("PROPS USER TASKS", this.state.tasks)
-	    	
-	 //    })
-	//  	this.setState({tasks: this.props.userTasks})
-	// }
+	componentWillReceiveProps(nextProps) {
+		console.log("NEXTTT PROPPPPPSSSS", nextProps);
+		this.setState({tasks: nextProps.userTasks});
+	}
 
 	openCollapse(event) {
-	    this.setState({open: !this.state.open})
-	    // console.log("TASK SET STATE", this.state.tasks)
+	    this.setState({open: !this.state.open});
+
 	    var projectID = this.props.router.params.id;
 	    var userID = event.target.getAttribute('data-memberID');
 
-		 //******can attach a .then to asynchronous actions. Since this action creator 
+		//can attach a .then to asynchronous actions. Since this action creator 
 	    //function this.props.populateTasks returns an axios request, I am able to attach a then() to it
 	    //and then set the state.	  
 	    this.props.populateTasks(projectID, userID).then(() => {
-	    	this.setState({tasks: this.props.userTasks})
-			console.log("PROPS USER TASKS", this.state.tasks)
-	    	
-	    })
+	    	this.setState({tasks: this.props.userTasks});
+	    });
 	}
 
 	render(){
@@ -57,12 +50,11 @@ class Tasks extends Component {
 			                ?
 
 			                <ol className="taskList">
-				                {this.state.tasks.map((task, i) => 
-				         
-				                  <li key={i}>{task.task.toString()}</li>
-				               
+				                {this.state.tasks.map((task, i) => 				         
+				                  <li key={i}>{task.task.toString()}</li>				               
 				                )}
 			                </ol>
+
 			                :
 
 			                nothing

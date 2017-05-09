@@ -38,7 +38,7 @@ class ProjectDetails extends React.Component {
     this.props.openModalTask()
     var userID = event.target.getAttribute('data-member-id')
 
-    //sets the userID in the button to open modal to the store so that it can be referenced in <TasksForms/>
+    //sets the userID in the button that opens modal, to the store so that it can be referenced in <TasksForms/>
     this.props.taskAssignUser(userID);
   }
 
@@ -91,7 +91,7 @@ class ProjectDetails extends React.Component {
 
             ?
               <div>
-                <a className="createButton action-button shadow animate blue" bsStyle="info" data-member-id={members._id} onClick={this.open}>
+                <a className="createButton action-button shadow animate blue" data-member-id={members._id} onClick={this.open}>
                   Assign a Task
                 </a>
               </div>

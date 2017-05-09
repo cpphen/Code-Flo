@@ -48,32 +48,21 @@ var session = require("express-session")({
 // SOCKET
 // var sharedsession = require("express-socket.io-session");
 app.use(session);
-// io.use(sharedsession(session, {autoSave: false}));
 
-
-
-//socketstart
-// var chat = io.of('/chat');
 
 io.on('connection', function(socket) {
-   // console.log('connected from %s', window.location.hostname );
 
-// console.log(socket.client.conn.id);
 	console.log("connected.", socket.id);
 	socket.on('disconnect', function(user) {
-		if (user) {
+  		if (user) {
+    		sockusers.splice(sockusers.indexOf(user._id), 1);
+    		sockusersAvatar.splice(sockusers.indexOf(user._id), 1);
+    		sockusersName.splice(sockusers.indexOf(user._id), 1);
+    		console.log('after leaving. sockusers:%s', sockusers);
+    		io.emit('sockusers', sockusers, sockusersAvatar, sockusersName);
+    	}
+  });
 
-
-		console.log("%s disconnected", socket.id);
-		console.log(Object.keys(io.sockets.sockets));
-		sockusers.splice(sockusers.indexOf(user._id), 1);
-		sockusersAvatar.splice(sockusers.indexOf(user._id), 1);
-		sockusersName.splice(sockusers.indexOf(user._id), 1);
-		console.log('after leaving. sockusers:%s', sockusers);
-		io.emit('sockusers', sockusers, sockusersAvatar, sockusersName);
-	}
-		// socket.emit('get clients', 'updating clients after disconect');
-	});
 	socket.on('chat opened', function(user) {
 		console.log('Chat was entered by %s', user._id);
 		socket.join('lobby');
@@ -108,64 +97,8 @@ io.on('connection', function(socket) {
 			socket.broadcast.to(data.room).emit('receive lobby message', data);
 			console.log('broadcasting msg to room %s', data.room);
 	});
-
-
 });
 
-
-// socket.on('joined lobby', function(response) {
-// 	socket.join(response.room);
-// 	socket.emit('sending id', 'user Socket ID:', socket.id);
-// 	console.log(socket.id + ' joined room: '+response.room);
-// 	var clients = Object.keys(io.sockets.sockets);
-// 	console.log("\x1b[46m", 'clients:' + clients, '\x1b[0m');
-// 	io.emit('user joined', response.user)
-//
-// })
-//
-// socket.on('joined room', function(response) {
-// 	socket.join(response.room);
-// 	console.log(socket.id + ' joined room: '+response.room);
-//
-// 	io.emit('user joined', response.user)
-//
-// })
-//
-//
-// socket.on('exit lobby', function(response) {
-// 	socket.leave(response.room);
-// 	console.log('%s left the lobby', response.user);
-// 	var clients = Object.keys(io.sockets.sockets);
-// 	console.log("\x1b[46m", 'clients:' + clients, '\x1b[0m');
-// 	io.emit('user left', response.user)
-//
-// })
-//
-// 	socket.on('new message lobby', function(data) {
-// 		console.log('incoming new message: %s', data);
-// 		socket.broadcast.to(data.room).emit('receive lobby message', data);
-// 		console.log('broadcasting msg to room %s', data.room);
-// 	});
-// 	socket.on('new message private', function(data) {
-// 		console.log('incoming new message: %s', data);
-// 		socket.broadcast.to(data.room).emit('receive private message', data);
-// 		console.log('broadcasting msg to room %s', data.room);
-// 	});
-//
-//
-//
-// 	socket.on('get clients', function(data) {
-// 		socket.emit('return clients', 'server msg:' + data, Object.keys(io.sockets.sockets))
-// 	})
-// });
-
-
-
-// -------------------------------------------------
-
-
-
-// -------------------------------------------------
 var databaseUri = "mongodb://localhost/sampledatabse1020";
 
 if (process.env.MONGODB_URI) {
@@ -176,7 +109,6 @@ if (process.env.MONGODB_URI) {
 // MongoDB configuration (Change this URL to your own DB)
 var database = mongoose.connection;
 
-
 database.on("error", function(err) {
   console.log("Mongoose Error: ", err);
 });
@@ -184,8 +116,6 @@ database.on("error", function(err) {
 database.once("open", function() {
   console.log("Mongoose connection successful.");
 });
-
-
 
 // -------------------------------------------------
 
@@ -218,10 +148,6 @@ passport.use(new LocalStrategy(
         	return done(null, false, { message: 'Incorrect username.' });
       	}
     	user.passwordVerify(password, user.password, function(err, match){
-    		console.log('\n\n')
-    		console.log("err was", err);
-    		console.log('\n\n')
-    		console.log("match was", match);
 
     		if (err) {
     			done(err);
@@ -247,24 +173,14 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(user, done) {
-  // console.log("id in serializeUser", id);
-  console.log("deserializeUserHIIIIIIIIIIII");
-  //This was not working because I was not using sequelize syntax and just using the passport js document. I had to put
-  //the function that I pasted from document, inside the 'then' promise that is part of sequelize syntax.
-  // db.users.findById(id).then(function(user) {
-  	console.log('deserializeUseruser', user)
     done(null, user);
-  // }).catch(function(err){
-  	// done(err);
-  // });
 });
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 app.use('/', routes);
-// Starting our express server
+
 db.sequelize.sync({ force: false }).then(function() {
 	server.listen(PORT, function() {
 	  console.log("App listening on PORT: " + PORT);

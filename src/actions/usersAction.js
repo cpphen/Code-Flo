@@ -32,12 +32,12 @@ export function createUser(formData) {
 					}
 				});
 				dispatch({ type: "SUCC_CLR_ERRS" });
-
 				dispatch({ type: "CLOSE_MODAL", payload: false });
 			}
 		});
 	}
 }
+
 export function createTeam(formData) {
 	return function(dispatch) {
 		console.log("FORM DATA IN CREATE TEAM ACTION", formData)
@@ -63,7 +63,6 @@ export function createTeam(formData) {
 	}
 };
 
-
 export function checkSession() {
 	return function(dispatch) {
 		axios.get('/checkssion').then((data) => {
@@ -85,7 +84,6 @@ export function checkSession() {
 
 export function login(loginInput) {
 	return function(dispatch) {
-
 		axios.post('/login', loginInput).then((data) => {
 			console.log("USER AFTER LOGIN", data);
 			if(data){
@@ -210,12 +208,11 @@ export function getPhoto(username, id){
 					    }
 					});
 
-				})
+				});
 			}else{
 				return;
 			}
-		})
-
+		});
 	}
 }
 
@@ -270,7 +267,10 @@ export function updateUserTask(task, userID, projectID){
 	return function(dispatch){
 		axios.post('/assignTask', info).then((res) => {
 			console.log("DATA IN ASSIGN TASK AXIOS", res)
-		})
+			axios.get('/populate-tasks/' + projectID + '/' + userID).then((res) => {
+				dispatch({ type: "SET_USER_TASKS", payload: res.data.task });
+			});
+		});
 	}
 }
 
@@ -280,7 +280,7 @@ export function populateTasks(projectID, userID){
 		//after this action creator gets called. See ****** in the comp0nent
 		return axios.get('/populate-tasks/' + projectID + '/' + userID).then((res) => {
 			console.log("RESPONSE IN POPULATE TASKS ACTIONS", res)
-			dispatch({ type: "SET_USER_TASKS", payload: res.data.task })
+			dispatch({ type: "SET_USER_TASKS", payload: res.data.task });
 		});
 	}
 }

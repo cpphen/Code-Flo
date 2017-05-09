@@ -42,13 +42,11 @@ class TasksForms extends Component {
 
         return (
            <div>
-
                 <Modal show={this.props.taskModal} onHide={this.close}>
                     <Modal.Header closeButton>
                         <Modal.Title>Assign a Task</Modal.Title>
                     </Modal.Header>
                         <Modal.Body>
-
 
                         <FormGroup>
                      
@@ -63,7 +61,6 @@ class TasksForms extends Component {
                         <Button className="btn btn-lg btn-warning btn-block" bsStyle="danger" type="button" onClick={this.close}>Close</Button>
                     </Modal.Footer>
                 </Modal>
-
            </div>
 
     );

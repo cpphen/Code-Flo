@@ -6,10 +6,6 @@ import { Link } from 'react-router';
 // import './Header.css';
 class MainFooter extends React.Component {
 
-
-
-
-
   render() {
 
     return(

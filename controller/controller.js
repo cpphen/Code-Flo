@@ -47,7 +47,7 @@ router.post('/assignTask', function(req, res) {
 router.get('/populate-tasks/:pID/:uID', function(req, res){
   console.log("REQ PARAMS pID TASK POPULATE", req.params.pID)
   console.log("REQ PARAMS uID TASK POPULATE", req.params.uID)
-  var query = { task: { $elemMatch: { projectID: req.params.pID }}}
+  // var query = { task: { $elemMatch: { projectID: req.params.pID }}}
   monUser.findById({ "_id": req.params.uID }).populate({path: 'task', match: { projectID: req.params.pID } }).exec(function(err, docs){
     console.log("POPULATE TASKS DOCS", docs)
     res.json(docs);

@@ -20,19 +20,12 @@ class Register extends Component {
 	constructor(props) {
 		super(props);
 
-
-
 		this.open = this.open.bind(this)
 		this.close = this.close.bind(this)
-
 		this.handleForm = this.handleForm.bind(this);
 	}
 
-
-
-
 	handleForm(e){
-		console.log("NAAAAAAAAAME", this.refs.name.value)
 		var formInput = {
 			name: this.refs.name.value,
 			username: this.refs.username.value,
@@ -42,11 +35,9 @@ class Register extends Component {
 			email: this.refs.email.value
 		}
 
-		console.log("FORMMMM INPUTTTT", formInput);
-
-
 		this.props.create(formInput);
 	}
+	
 	close() {
 		this.props.close()
 	}
@@ -56,7 +47,6 @@ class Register extends Component {
 	}
 
 	render() {
-		console.log("ERROR MESSAGES", this.props.regErr);
 
 		const errs = this.props.regErr;
 

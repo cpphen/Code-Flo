@@ -19,14 +19,11 @@ class SkillEdit extends Component {
 
 
     updateSkills(event){
-        console.log("THE SKILLS", this.newSkills.value)        
-        console.log("User ID for SKILLLS", this.props.CheckSeshUser._id)
-
+        
         let editedSkills = this.newSkills.value;
         let userID = this.props.CheckSeshUser._id;
 
         this.newSkills.value = "";
-
         this.props.editSkills(editedSkills, userID);
     }
 

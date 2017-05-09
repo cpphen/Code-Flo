@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { browserHistory } from "react-router";
+import SkillEdit from '../components/forms/skillEditForm.jsx';
 
 class ProfileTwo extends Component {
 
@@ -17,7 +18,10 @@ class ProfileTwo extends Component {
   }
 
   render() {
-    const { dynamicUser } = this.props
+    let { dynamicUser, CheckSeshUserID, CheckSeshUser } = this.props
+    let { skills } = this.props.CheckSeshUser
+
+    console.log("DYNAMIC USER", dynamicUser);
 
     return (
 
@@ -28,21 +32,18 @@ class ProfileTwo extends Component {
               <hr />
               <h2>{name}</h2>
               <hr />
-              <h3>GitHub ID: <span>{dynamicUser.username}</span></h3>
+              <h3>GitHub ID: <span className="gitname">{dynamicUser.username}</span></h3>
               <hr />
 
-                <h4>Skills</h4>
-                <h6>{dynamicUser.skills}</h6>
+                <h4>{CheckSeshUserID === dynamicUser._id ? <SkillEdit {...this.props} /> : null}Skills</h4>
+                <h6 className="skills">{CheckSeshUserID === dynamicUser._id ? skills : dynamicUser.skills}</h6>
 
               <hr />
               <br />
 
               <div className="icons-holder">
-                <a target='_blank' href="http://www.github.com">
+                <a target='_blank' href={"http://www.github.com/" + dynamicUser.username}>
                   <img src="/assets/icons/github.png" className="profIcons"/>
-                </a>
-                <a target='_blank' href="http://www.linkedin.com">
-                  <img src="/assets/icons/linkedin.png" className="profIcons"/>
                 </a>
               </div>
           </div>
