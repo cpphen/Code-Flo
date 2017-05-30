@@ -14,14 +14,6 @@ class MainFooter extends React.Component {
           <li>
             <a target='_blank' href="https://github.com/henhen87/Code-Flo">|  Github Repository   |</a>
           </li>
-
-          <li>
-            <a target='_blank' href="http://github.com/nhoon2002">|  Alex Github | </a>
-          </li>
-          <li>
-            <a target='_blank' href="https://www.linkedin.com/in/alex-nam-kim-04388070/">|   Alex LinkedIn   | </a>
-          </li>
-
           <li>
             <a target='_blank' href="https://github.com/henhen87">|   Henry Github | </a>
           </li>
