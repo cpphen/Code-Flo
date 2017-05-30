@@ -1,9 +1,6 @@
 import React from 'react';
-
-
 import { Link } from 'react-router';
 
-// import './Header.css';
 class MainFooter extends React.Component {
 
   render() {
@@ -22,7 +19,6 @@ class MainFooter extends React.Component {
           </li>
           <li><h4>CodeFlo&copy; 2017</h4></li>
         </ul>
-
       </footer>
     )
   }
