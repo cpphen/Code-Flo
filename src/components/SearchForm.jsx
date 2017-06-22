@@ -5,7 +5,9 @@ class AsyncExample extends Component {
   constructor(props){
     super(props);
 
-    this.state = { options: [] };
+    this.state = { 
+      options: [] 
+    };
     this._handleSearch = this._handleSearch.bind(this)
     this._handleClick = this._handleClick.bind(this)
   }
